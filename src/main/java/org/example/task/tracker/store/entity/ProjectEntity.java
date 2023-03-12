@@ -29,6 +29,10 @@ public class ProjectEntity {
     @Column(name= "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Builder.Default
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
     @OneToMany(mappedBy = "projectEntity")
     @Builder.Default
     @Column(name = "task_states")

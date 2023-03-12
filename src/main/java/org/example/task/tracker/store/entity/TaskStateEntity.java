@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,9 +29,6 @@ public class TaskStateEntity {
     @Column(name= "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name="description")
-    private String description;
-
     @Column(name = "ordinal")
     private Integer ordinal;
 
@@ -55,13 +51,12 @@ public class TaskStateEntity {
         TaskStateEntity other = (TaskStateEntity) o;
         return (Objects.equals(getName(),other.getName()) &&
                 Objects.equals(getCreatedAt(),other.getCreatedAt()) &&
-                Objects.equals(getDescription(),other.getDescription()) &&
                 Objects.equals(getOrdinal(),other.getOrdinal()) &&
                 Objects.equals(getTasks(),other.getTasks()));
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(name,createdAt,description,ordinal,tasks);
+        return Objects.hash(name,createdAt,ordinal,tasks);
     }
 }
