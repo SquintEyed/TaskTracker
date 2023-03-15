@@ -16,14 +16,6 @@ public class ControllerHelper {
         this.projectService = projectService;
     }
 
-    public void throwExceptionIfProjectAlreadyExist(String projectName) {
-
-       projectService.findByName(projectName)
-              .ifPresent(project -> {
-                  throw new BadRequestException("Project with name:" + projectName + ", already exist");
-              });
-    }
-
     public ProjectEntity getProjectEntityOrThrowException(Long projectId) {
 
        return projectService

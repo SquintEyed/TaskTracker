@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -58,7 +59,10 @@ public class ProjectController {
     @PostMapping
     public ProjectDto createNewProject(@RequestParam(value = "name", required = true) String projectName) {
 
-        controllerHelper.throwExceptionIfProjectAlreadyExist(projectName);
+        projectService.findByName(projectName)
+              .ifPresent(project -> {
+                  throw new BadRequestException("Project with name:" + projectName + ", already exist");
+              });
 
         ProjectEntity entity = ProjectEntity
                 .builder()
@@ -107,5 +111,41 @@ public class ProjectController {
                 .builder()
                 .askMessage("Project with id = " + projectId + ", successfully deleted")
                 .build();
+    }
+
+    @PutMapping
+    public ProjectDto createOrUpdateProject(@RequestParam(value = "project_id", required = false) Optional<Long> optionalProjectId,
+                                            @RequestParam(value = "project_name", required = false) Optional<String> optionalProjectName) {
+
+        optionalProjectName = optionalProjectName.filter(projectName -> !projectName.trim().isEmpty());
+
+        boolean isCreate = !optionalProjectId.isPresent();
+
+        if (isCreate && !optionalProjectName.isPresent()) {
+            throw new BadRequestException("Project name can't be empty.");
+        }
+
+        final ProjectEntity project = optionalProjectId
+                .map(controllerHelper::getProjectEntityOrThrowException)
+                .orElseGet(() -> ProjectEntity.builder().build());
+
+        optionalProjectName
+                .ifPresent(projectName -> {
+
+                    projectService
+                            .findByName(projectName)
+                            .filter(anotherProject -> !Objects.equals(anotherProject.getId(), project.getId()))
+                            .ifPresent(anotherProject -> {
+                                throw new BadRequestException(
+                                        String.format("Project  %s already exists.", projectName)
+                                );
+                            });
+
+                    project.setName(projectName);
+                });
+
+        final ProjectEntity savedProject = projectService.saveAndFlush(project);
+
+        return projectDtoFactory.makeProjectDto(savedProject);
     }
 }
