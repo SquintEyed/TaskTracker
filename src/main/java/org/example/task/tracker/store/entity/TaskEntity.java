@@ -20,7 +20,7 @@ public class TaskEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name",unique = true)
+    @Column(name = "name")
     private String name;
 
     @Builder.Default

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +22,6 @@ public class TaskStateDto {
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
+
+    private List<TaskDto> tasks = new ArrayList<>();
 }
