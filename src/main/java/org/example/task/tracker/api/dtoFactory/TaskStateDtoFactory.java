@@ -18,7 +18,8 @@ public class TaskStateDtoFactory {
         return TaskStateDto.builder()
                     .id(entity.getId())
                     .name(entity.getName())
-                    .ordinal(entity.getOrdinal())
+                    .rightTaskStateDtoId(entity.getRightTaskState().map(TaskStateEntity::getId).orElse(null))
+                    .leftTaskStateDtoId(entity.getLeftTaskState().map(TaskStateEntity::getId).orElse(null))
                     .createdAt(entity.getCreatedAt())
                     .tasks(
                             entity

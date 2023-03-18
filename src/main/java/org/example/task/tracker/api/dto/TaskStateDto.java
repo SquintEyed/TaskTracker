@@ -18,7 +18,11 @@ public class TaskStateDto {
 
     private String name;
 
-    private Integer ordinal;
+    @JsonProperty("right_task_state_id")
+    private Long rightTaskStateDtoId;
+
+    @JsonProperty("left_task_state_id")
+    private Long leftTaskStateDtoId;
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
