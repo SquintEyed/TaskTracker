@@ -16,4 +16,13 @@ public interface TaskStateRepository extends JpaRepository<TaskStateEntity, Long
     Optional<TaskStateEntity> findTaskStateEntityByRightTaskStateIdIsNullAndProjectEntityId(@Param("project_id") Long projectId);
 
     TaskStateEntity saveAndFlush(TaskStateEntity entity);
+
+    Optional<TaskStateEntity> findById(Long id);
+
+    @Query(
+            "SELECT taskState from TaskStateEntity taskState WHERE taskState.name = :task_state_name" +
+                    " AND taskState.projectEntity.id = :project_id "
+    )
+    Optional<TaskStateEntity> findByNameAndProjectEntityId(@Param("task_state_name") String taskStateName,
+                                                           @Param("project_id")Long projectId);
 }

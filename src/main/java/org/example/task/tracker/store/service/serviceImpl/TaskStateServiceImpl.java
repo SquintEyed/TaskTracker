@@ -25,4 +25,14 @@ public class TaskStateServiceImpl implements TaskStateService {
     public Optional<TaskStateEntity> findTaskStateEntityByRightTaskStateIdIsNullAndProjectEntityId(Long projectId) {
         return taskStateRepository.findTaskStateEntityByRightTaskStateIdIsNullAndProjectEntityId(projectId);
     }
+
+    @Override
+    public Optional<TaskStateEntity> findById(Long taskStateId) {
+        return taskStateRepository.findById(taskStateId);
+    }
+
+    @Override
+    public Optional<TaskStateEntity> findByNameAndProjectEntityId(String taskStateName, Long projectId) {
+        return taskStateRepository.findByNameAndProjectEntityId(taskStateName, projectId);
+    }
 }

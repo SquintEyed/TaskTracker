@@ -10,4 +10,8 @@ public interface TaskStateService {
     Optional<TaskStateEntity> findTaskStateEntityByRightTaskStateIdIsNullAndProjectEntityId(@Param("projectId") Long projectId);
 
     TaskStateEntity saveAndFlush(TaskStateEntity entity);
+
+    Optional<TaskStateEntity> findById(Long taskStateId);
+
+    Optional<TaskStateEntity> findByNameAndProjectEntityId(String taskStateName, Long projectId);
 }
