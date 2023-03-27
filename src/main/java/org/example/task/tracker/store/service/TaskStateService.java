@@ -14,4 +14,6 @@ public interface TaskStateService {
     Optional<TaskStateEntity> findById(Long taskStateId);
 
     Optional<TaskStateEntity> findByNameAndProjectEntityId(String taskStateName, Long projectId);
+
+    void deleteById(Long taskStateId);
 }

@@ -32,6 +32,11 @@ public class TaskStateServiceImpl implements TaskStateService {
     }
 
     @Override
+    public void deleteById(Long taskStateId) {
+        taskStateRepository.deleteById(taskStateId);
+    }
+
+    @Override
     public Optional<TaskStateEntity> findByNameAndProjectEntityId(String taskStateName, Long projectId) {
         return taskStateRepository.findByNameAndProjectEntityId(taskStateName, projectId);
     }

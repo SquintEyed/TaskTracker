@@ -1,6 +1,7 @@
 package org.example.task.tracker.api.controller;
 
 import org.example.task.tracker.api.controller.helpUtil.ControllerHelper;
+import org.example.task.tracker.api.dto.AskDto;
 import org.example.task.tracker.api.dto.TaskStateDto;
 import org.example.task.tracker.api.dtoFactory.TaskStateDtoFactory;
 import org.example.task.tracker.api.exception.BadRequestException;
@@ -25,6 +26,7 @@ public class TaskStateController {
     private final String GET_TASK_STATES = "{project_id}/task-states";
     private final String CREATE_TASK_STATE = "{project_id}/task-states";
     private final String UPDATE_TASK_STATE = "task-states/{task_state_id}";
+    private final String DELETE_TASK_STATE = "task-states/{task_state_id}";
     private final String CHANGE_TASK_STATE_POSITION = "task-states/changed/{task_state_id}";
 
     public TaskStateController(TaskStateService taskStateService,
@@ -218,6 +220,18 @@ public class TaskStateController {
         taskStateService.saveAndFlush(changedTaskState);
 
         return taskStateDtoFactory.makeTaskStateDto(changedTaskState);
+    }
+
+    @DeleteMapping(DELETE_TASK_STATE)
+    public AskDto deleteTaskState(@PathVariable(name = "task_state_id") Long taskStateId) {
+
+        TaskStateEntity taskState = controllerHelper.getTaskStateEntityByIdOrThrowException(taskStateId);
+
+        taskStateService.deleteById(taskStateId);
+
+        return AskDto.builder()
+                .askMessage(String.format("TaskState with id = %d successfully deleted",taskStateId))
+                .build();
     }
 }
 

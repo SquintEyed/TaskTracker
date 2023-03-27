@@ -25,4 +25,6 @@ public interface TaskStateRepository extends JpaRepository<TaskStateEntity, Long
     )
     Optional<TaskStateEntity> findByNameAndProjectEntityId(@Param("task_state_name") String taskStateName,
                                                            @Param("project_id")Long projectId);
+
+    void deleteById(Long taskStateId);
 }
