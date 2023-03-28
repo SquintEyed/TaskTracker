@@ -65,6 +65,7 @@ public class TaskStateController {
         for(TaskStateEntity taskStateEntity : project.getTaskStates()) {
 
             if(taskStateEntity.getName().equalsIgnoreCase(taskStateName)) {
+
                 throw new BadRequestException(
                         String.format("Task state with name %S already exist in project", taskStateName)
                 );

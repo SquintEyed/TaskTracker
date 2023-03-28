@@ -2,6 +2,7 @@ package org.example.task.tracker.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.example.task.tracker.store.entity.TaskEntity;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +18,9 @@ public class TaskDto {
     private String name;
 
     private String description;
+
+    @JsonProperty("taskStateId")
+    private Long taskStateId;
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;

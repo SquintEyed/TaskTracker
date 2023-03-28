@@ -3,6 +3,7 @@ package org.example.task.tracker.api.controller.helpUtil;
 import org.example.task.tracker.api.exception.BadRequestException;
 import org.example.task.tracker.api.exception.NotFoundException;
 import org.example.task.tracker.store.entity.ProjectEntity;
+import org.example.task.tracker.store.entity.TaskEntity;
 import org.example.task.tracker.store.entity.TaskStateEntity;
 import org.example.task.tracker.store.service.ProjectService;
 import org.example.task.tracker.store.service.TaskStateService;
@@ -19,6 +20,7 @@ public class ControllerHelper {
         this.projectService = projectService;
         this.taskStateService = taskStateService;
     }
+
 
     public void throwExceptionIfProjectAlreadyExist(String projectName) {
 
@@ -40,6 +42,16 @@ public class ControllerHelper {
         return taskStateService
                 .findById(taskStateId)
                 .orElseThrow(() -> new NotFoundException(String.format("TaskStateEntity with id = \"%s\" not exist",taskStateId)));
+    }
+
+    public TaskEntity getTaskEntityOrThrowException(TaskStateEntity taskStateEntity, Long taskId) {
+
+        return taskStateEntity
+                .getTasks()
+                .stream()
+                .filter(task -> task.getId() == taskId)
+                .findAny()
+                .orElseThrow(() -> new BadRequestException(String.format("Task with id = %d does not exist in this task states", taskId)));
     }
 
 }
